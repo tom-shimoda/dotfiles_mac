@@ -53,7 +53,7 @@ zinit light-mode for \
 # Load Plugins
 ##############
 ### Load pure theme
-zinit ice pick"async.zsh" src"pure.zsh" # with zsh-async library that's bundled with it.
+zinit ice pick"async.zsh" src"pure.zsh" # with zsh-async library that is bundled with it.
 zinit light sindresorhus/pure
 zstyle :prompt:pure:git:stash show yes # turn on git stash status
 
