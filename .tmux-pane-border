@@ -1,0 +1,122 @@
+#!/bin/zsh
+# このファイルの参考元: https://qiita.com/arks22/items/a792d9d43d913c373520
+
+function get_git_status() {
+    local untracked=0
+    local modified=0
+    local added=0
+
+    IFS=$'\n' # 行の区切り文字を指定。指定しないと空白でも分けられる
+    for line in `git status --short 2> /dev/null`
+    do
+        case $line in
+            "??"*)
+                untracked=$((untracked+1))
+                ;;
+            " M"*)
+                modified=$((modified+1))
+                ;;
+            "M "*)
+                added=$((added+1))
+                ;;
+            "A "*)
+                added=$((added+1))
+                ;;
+            "AM"*)
+                modified=$((modified+1))
+                added=$((added+1))
+                ;;
+        esac
+    done
+
+    local result=""
+    if (( added > 0 )); then
+        result="+$added"
+    fi
+
+    if (( modified > 0 )); then
+        if [[ -n $result ]]; then
+            result="$result !$modified"
+        else
+            result="!$modified"
+        fi
+    fi
+
+    if (( untracked > 0 )); then
+        if [[ -n $result ]]; then
+            result="$result ?$untracked"
+        else
+            result="?$untracked"
+        fi
+    fi
+
+    if [[ -n $result ]]; then
+        echo "#[fg=colour003] $result "
+    else
+        echo "#[fg=green] ✔ "
+    fi
+}
+
+if [[ $1 = "ssh" ]]; then
+  pane_pid=$2
+  info=$({ pgrep -flaP $pane_pid ; ps -o command -p $pane_pid; } | xargs -I{} echo {} | awk '/ssh/' | sed -E 's/^[0-9]*[[:blank:]]*ssh //')
+  port=$(echo $info | grep -Eo '\-p ([0-9]+)'|sed 's/-p //')
+  if [ -z $port ]; then
+    local port=22
+  fi
+  info=$(echo $info | sed 's/\-p '"$port"'//g')
+  user=$(echo $info | awk '{print $NF}' | cut -f1 -d@)
+  host=$(echo $info | awk '{print $NF}' | cut -f2 -d@)
+
+  if [ $user = $host ]; then
+    user=$(whoami)
+    list=$(awk '
+      $1 == "Host" {
+        gsub("\\\\.", "\\\\.", $2);
+        gsub("\\\\*", ".*", $2);
+        host = $2;
+        next;
+      }
+      $1 == "User" {
+      $1 = "";
+        sub( /^[[:space:]]*/, "" );
+        printf "%s|%s\n", host, $0;
+      }' ~/.ssh/config
+    )
+    echo $list | while read line; do
+      host_user=${line#*|}
+      if [[ "$host" =~ $line ]]; then
+        user=$host_user
+        break
+      fi
+    done
+  fi
+  ssh_hostname=" ssh:$user@$host "
+  git_info=""
+  directory=""
+else
+  if git_status=$(cd $3 && git status 2>/dev/null ); then
+    git_branch="$(echo $git_status| awk 'NR==1 {print $3}')"
+    state=$(cd $3 && get_git_status)
+    if [[ $git_branch = "master" ]]; then
+      git_info="#[bg=black,fg=blue] ⭠ ${git_branch}${state}#[default]"
+    else
+      git_info="#[bg=black,fg=colour014] ⭠ ${git_branch}${state}#[default]"
+    fi
+  else
+    git_info=""
+  fi
+  ssh_hostname=""
+  directory="$3"
+fi
+
+# treemuxの場合タイトル名を表示しない
+pane_pid=$2
+info=$({ pgrep -flaP $pane_pid ; ps -o command -p $pane_pid; })
+if echo $info | grep -q 'treemux_init.lua'; then
+  ssh_hostname=""
+  directory=""
+  git_info=""
+fi
+
+echo "#[bg=colour172,fg=colour234]$ssh_hostname#[default]#[bg=black,fg=cyan]#[underscore]$directory#[default]$git_info"
