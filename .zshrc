@@ -1,7 +1,14 @@
 ########################
 # zsh起動時にtmuxも自動起動
 ########################
-[[ -z "$TMUX" && ! -z "$PS1" ]] && tmux
+[[ -z "$TMUX" && ! -z "$PS1" ]] && tmux a
+
+# paneのタイトル部分のリロード用 (.tmux-pane-border追加時に追加)
+function precmd() {
+  if [ ! -z $TMUX ]; then
+    tmux refresh-client -S
+  fi
+}
 
 ########################
 # Powerlevel10kにより自動生成
@@ -26,6 +33,9 @@ alias gitg='git log --graph --oneline --decorate=full --date=short --format="%C(
 ########################
 # Blender
 export PATH="$PATH:/Applications/Blender.app/Contents/MacOS/"
+# ggrepをgrepとして使いたい (ggrepは`brew install grep`でインストールできる)
+# gnu系をデフォルト名で使いたい場合はbrew info grep等で何をPATHに追加すればいいか教えてくれる
+export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
 
 ########################
 # cd移動時に自動でllする
@@ -122,3 +132,4 @@ export FZF_CTRL_T_OPTS='--preview "bat  --color=always --style=header,grid --lin
 ########################
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
