@@ -1,0 +1,333 @@
+# --- colorscheme
+[[plugins]]
+repo = 'sainnhe/gruvbox-material'
+hook_add = '''
+    set background=dark
+    colorscheme gruvbox-material
+'''
+
+# --- ale
+[[plugins]]
+repo = 'dense-analysis/ale'
+hook_add = '''
+    let g:ale_disable_lsp = 1
+    let g:ale_linters = {
+    \ 'cs' : ['OmniSharp']
+    \}
+
+    nmap <silent> gan :ALENext<cr>
+    nmap <silent> gab :ALEPrevious<cr>
+'''
+
+# --- airline
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+hook_add = '''
+    " Powerline系フォントを利用する
+    set laststatus=2
+    let g:airline_powerline_fonts = 1
+    " タブ移動左右
+    let g:airline#extensions#tabline#enabled = 1
+    nmap <S-h> <Plug>AirlineSelectPrevTab
+    nmap <S-l> <Plug>AirlineSelectNextTab
+    let g:airline#extensions#tabline#buffer_idx_mode = 1
+    let g:airline#extensions#tabline#formatter = 'unique_tail'
+    let g:airline_theme = 'gruvbox_material'
+    if !exists('g:airline_symbols')
+      let g:airline_symbols = {}
+    endif
+
+    " unicode symbols
+    let g:airline_left_sep = '»'
+    let g:airline_left_sep = '▶'
+    let g:airline_right_sep = '«'
+    let g:airline_right_sep = '◀'
+    let g:airline_symbols.crypt = '🔒'
+    let g:airline_symbols.linenr = '☰'
+    let g:airline_symbols.linenr = '␊'
+    let g:airline_symbols.linenr = '␤'
+    let g:airline_symbols.linenr = '¶'
+    let g:airline_symbols.maxlinenr = ''
+    let g:airline_symbols.maxlinenr = '㏑'
+    let g:airline_symbols.branch = '⎇'
+    let g:airline_symbols.paste = 'ρ'
+    let g:airline_symbols.paste = 'Þ'
+    let g:airline_symbols.paste = '∥'
+    let g:airline_symbols.spell = 'Ꞩ'
+    let g:airline_symbols.notexists = '∄'
+    let g:airline_symbols.whitespace = 'Ξ'
+
+    " powerline symbols
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
+    let g:airline_symbols.branch = ''
+    let g:airline_symbols.readonly = ''
+    let g:airline_symbols.linenr = '☰'
+    let g:airline_symbols.maxlinenr = ''
+'''
+
+# --- accelerated-smooth-scroll
+# [[plugins]]
+# repo = 'yonchu/accelerated-smooth-scroll'
+# hook_add = '''
+#     let g:ac_smooth_scroll_du_sleep_time_msec = 5
+#     let g:ac_smooth_scroll_fb_sleep_time_msec = 5
+# '''
+
+# --- easymotion
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+hook_add = '''
+    map , <leader>
+    map ,, <leader><leader>s
+    map <leader>s <Plug>(easymotion-bd-f2)
+    nmap <leader>s <Plug>(easymotion-overwin-f2)
+    map <leader>l <Plug>(easymotion-bd-jk)
+    nmap <leader>l <Plug>(easymotion-overwin-line)
+
+    let g:EasyMotion_smartcase = 1
+'''
+
+# --- nvim-tree
+[[plugins]]
+repo = 'nvim-tree/nvim-web-devicons'
+[[plugins]]
+repo = 'nvim-tree/nvim-tree.lua'
+hook_add = '''
+nnoremap <silent> <F2> :NvimTreeFindFileToggle<CR>
+
+lua << EOF
+-- disable netrw at the very start of your init.lua (strongly advised)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
+-- setup with some options
+require("nvim-tree").setup({
+  -- '-'キーを無効化し、'u'で階層を上がるように(tmux用nvim-treeとバインドを同じにするため)
+  view = {
+    mappings = {
+      list = {
+        { key = "u", action = "dir_up" },
+      },
+    },
+  },
+  remove_keymaps = {
+    '-',
+  }
+})
+
+-- nvim-treeが最後のbufferだった場合、自動で閉じる(参考:https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close)
+vim.api.nvim_create_autocmd("BufEnter", {
+  nested = true,
+  callback = function()
+    if #vim.api.nvim_list_wins() == 1 and require("nvim-tree.utils").is_nvim_tree_buf() then
+      vim.cmd "quit"
+    end
+  end
+})
+EOF
+'''
+
+# --- NERDTree
+# [[plugins]]
+# repo = 'preservim/nerdtree'
+# hook_add = '''
+#     let g:NERDTreeChDirMode=2
+#     let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '\.meta$', '\.exe$']
+#     let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+#     let g:NERDTreeShowBookmarks=1
+#     let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+#     let g:NERDTreeWinSize = 30
+#     let NERDTreeShowHidden = 1
+#     let g:NERDTreeDirArrowExpandable = '▸'
+#     let g:NERDTreeDirArrowCollapsible = '▾'
+#     set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+#     nnoremap <Leader>f :NERDTreeFind<CR>
+#     augroup NERD
+#         au!
+#         " 他のバッファをすべて閉じた時にNERDTreeが開いていたらNERDTreeも一緒に閉じる。
+#         "autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
+#         " Vim起動時にNERDTreeを表示
+#         "autocmd StdinReadPre * let s: std_in=1
+#         "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") && v:this_session == "" | NERDTree | endif
+#         "autocmd VimEnter * wincmd p
+#     augroup END
+# '''
+
+# --- vim-nerdtree-tabs
+# [[plugins]]
+# repo = 'jistr/vim-nerdtree-tabs'
+# hook_add = '''
+#     nnoremap <silent> <F2> :NERDTreeTabsToggle<CR>
+# '''
+
+# --- neosnippet-snippets
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+# --- auto-pairs
+[[plugins]]
+repo = 'jiangmiao/auto-pairs'
+
+# --- calendar.vim
+[[plugins]]
+repo = 'itchyny/calendar.vim'
+
+# --- fzf
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+hook_add = '''
+    " fzfのリポジトリへpathを通しておく必要がある (参考: https://github.com/junegunn/fzf.vim/issues/439#issuecomment-1268535686 )
+    set rtp+=/opt/homebrew/Cellar/fzf/0.38.0/
+
+    "nnoremap <C-p> :call FzfOmniFiles()<cr>
+    nnoremap <C-p> :FZF<cr>
+    nnoremap <C-g> :Rg<Space>
+
+    " fzf (C-p)
+    "fun! FzfOmniFiles()
+    "  let is_git = system('git status')
+    "    if v:shell_error
+    "        :Files
+    "    else
+    "        :GitFiles
+    "    endif
+    "endfun
+
+    " ripgrep (C-g)
+    if executable('rg')
+        command! -bang -nargs=* Rg
+        \ call fzf#vim#grep(
+        \ 'rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1,
+        \ <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%')
+        \ : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
+        \ <bang>0)
+    endif
+'''
+
+# --- vim-fugitive
+# [[plugins]]
+# repo = 'tpope/vim-fugitive'
+
+# --- gv.vim
+# [[plugins]]
+# repo = 'junegunn/gv.vim'
+
+# --- vim-gitgutter
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+hook_add = '''
+    nnoremap ghn :GitGutterNextHunk<cr>
+    nnoremap ghb :GitGutterPrevHunk<cr>
+    nnoremap ghs :GitGutterStageHunk<cr>
+    nnoremap ghu :GitGutterUndoHunk<cr>
+    nnoremap ghp :GitGutterPreviewHunk<cr>
+'''
+
+# --- indentLine
+#[[plugins]]
+#repo = 'Yggdroot/indentLine'
+#hook_add = '''
+#    "let g:indentLine_char = '⮞'
+#    let g:indentLine_char = '▏'
+#'''
+
+# --- vim-brightest
+# [[plugins]]
+# repo = 'osyo-manga/vim-brightest'
+# hook_add = '''
+#     let g:brightest#highlight = {
+#     \    "group" : "BrightestUnderLine"
+#     \ }
+# '''
+
+# --- coc.nvim
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+merged = '0'
+rev = 'release'
+hook_add = '''
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+    nnoremap <silent> == :call CocAction('format')<CR>
+    nnoremap <silent> ghh :call <SID>show_documentation()<CR>
+
+    function! s:show_documentation()
+        if (index(['vim','help'], &filetype) >= 0)
+            execute 'h '.expand('<cword>')
+        else
+            call CocAction('doHover')
+        endif
+    endfunction
+
+    " autocomplete (参考: https://qiita.com/totto2727/items/d0844c79f97ab601f13b)
+    inoremap <silent><expr> <C-j> coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"
+    inoremap <silent><expr> <C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"
+    inoremap <silent><expr> <Enter> coc#pum#visible() ? coc#pum#confirm() : "\<Enter>"
+    inoremap <silent><expr> <Esc> coc#pum#visible() ? coc#pum#cancel() : "\<Esc>"
+
+    " <Tab>で次、<S+Tab>で前
+    inoremap <silent><expr> <TAB>
+    \ coc#pum#visible() ? coc#pum#next(1):
+    \ <SID>check_back_space() ? "\<Tab>" :
+    \ coc#refresh()
+    inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<S-TAB>" " "\<C-h>"
+    inoremap <silent><expr> <c-space> coc#refresh()
+'''
+
+# --- vim-polyglot
+[[plugins]]
+repo = 'sheerun/vim-polyglot'
+
+# --- tagbar
+[[plugins]]
+repo = 'preservim/tagbar'
+hook_add = '''
+    nmap <silent> <F3> :TagbarToggle<CR>
+'''
+
+# --- vim-startify
+# [[plugins]]
+# repo = 'mhinz/vim-startify'
+# hook_add = '''
+#     let g:startify_change_to_dir = 0
+#     let g:startify_change_to_vcs_root = 0
+# '''
+
+# --- vim-commentary
+[[plugins]]
+repo = 'tpope/vim-commentary'
+hook_add = '''
+    noremap <silent> <Space>/ :Commentary<CR>
+    noremap <silent> <C-/> :Commentary<CR>
+'''
+
+# --- vim-table-mode
+[[plugins]]
+repo = 'dhruvasagar/vim-table-mode'
+hook_add = '''
+    let g:table_mode_corner = '+'
+    let g:table_mode_corner_corner = '|'
+    let g:table_mode_header_fillchar = '='
+'''
+
+# --- vim-devicons
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
+hook_add = '''
+    let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+'''
+
+# --- AmbiCompletion
+[[plugins]]
+repo = 'vim-scripts/AmbiCompletion'
+
