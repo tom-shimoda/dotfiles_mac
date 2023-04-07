@@ -12,6 +12,7 @@ function copy_to() {
 
 copy_to .zshrc ~
 copy_to .tmux.conf ~
+copy_to .tmux_toggle.conf ~
 copy_to .tmux-pane-border ~
 copy_to .p10k.zsh ~
 copy_to .gitconfig ~
