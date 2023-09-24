@@ -185,7 +185,8 @@ repo = 'itchyny/calendar.vim'
 repo = 'junegunn/fzf.vim'
 hook_add = '''
     " fzfのリポジトリへpathを通しておく必要がある (参考: https://github.com/junegunn/fzf.vim/issues/439#issuecomment-1268535686 )
-    set rtp+=/opt/homebrew/Cellar/fzf/0.38.0/
+    set rtp+=/opt/homebrew/Cellar/fzf/0.42.0/
+
 
     "nnoremap <C-p> :call FzfOmniFiles()<cr>
     nnoremap <C-p> :FZF<cr>
@@ -312,6 +313,11 @@ hook_add = '''
 '''
 
 # --- vim-table-mode
+# 使い方
+# 1. :TableModeToggleでOn
+# 2. |name|address|phone|のように入力
+# 3. ||を入力するとセパレーターが追加される
+# 4. 次の行以降、手順2で入力していく
 [[plugins]]
 repo = 'dhruvasagar/vim-table-mode'
 hook_add = '''
