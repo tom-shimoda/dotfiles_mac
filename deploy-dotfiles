@@ -16,4 +16,8 @@ copy_to .tmux_toggle.conf ~
 copy_to .tmux-pane-border ~
 copy_to .p10k.zsh ~
 copy_to .gitconfig ~
+copy_to .gitconfig_private ~
 copy_to .config/nvim ~/.config -R
+
+# デバッグ実行関連の設定ファイル
+copy_to .nvim-dap.lua ~

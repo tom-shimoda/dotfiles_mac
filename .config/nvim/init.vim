@@ -125,15 +125,11 @@ noremap <C-k> kkk
 noremap <Space>h ^
 "行末移動
 noremap <Space>l $
-"カーソル下のシンボルをリネーム
-nnoremap <Space>r *N:%s//
+"カーソル下のシンボルをリネーム → coc-renameに差し替えたためコメントアウト
+" nnoremap <Space>r *N:%s//
 
 "行番号移動
 nnoremap <Space><Enter> G
-"カーソル下のシンボルをコピー
-nnoremap <Space>y wbvey
-"カーソル下のシンボルをカット
-nnoremap <Space>c wbvec
 "行の連結
 noremap <Space>j gJ
 "前回のカーソル位置に戻る
@@ -153,6 +149,44 @@ nnoremap <C-h> <C-w>W
 nnoremap <C-l> <C-w>w
 "v0.6.0より'Y'が'y$'に変更されたため再マッピング
 nnoremap Y yy
+
+" 終了時処理
+map ZZ :call Exit()<cr>
+fun! Exit()
+    " nvim-tree閉じる
+    :NvimTreeClose
+    " dap-ui閉じる
+    :lua require("dapui").close()
+    :q!
+endfun
+
+" --- コピー系
+"行コピー
+nnoremap <S-y> yy
+"削除系アクション実行時にコピーレジスタに入れるように変更
+vnoremap c "0c
+vnoremap x "0x
+vnoremap d "0d
+vnoremap D "0D
+nnoremap di( "0di(
+nnoremap di[ "0di[
+nnoremap di{ "0di{
+nnoremap di' "0di'
+nnoremap di" "0di"
+nnoremap D "0D
+nnoremap dd "0dd
+"カーソル下のシンボルをコピー
+nnoremap <Space>y wbvey
+"カーソル下のシンボルをカット
+nnoremap <Space>c wbvec
+"カーソル下のシンボルにペースト
+nnoremap <Space>p wbve"0p
+"yankしたものをpaste (範囲選択ペースト時のみ、上書きpasteによるレジスタ置き換えを回避)
+nnoremap p "0p
+nnoremap P "0P
+vnoremap p "0p
+vnoremap P "0P
+
 
 " --- rainbow
 let g:rainbow_active = 1
@@ -190,7 +224,7 @@ endfunction
 command! ToUtf8 :call ToUtf8()
 function! ToLf() abort
     execute 'e ++ff=unix'
-    execute '%s///g'
+    execute '%s///g'
     silent write
 endfunction
 command! ToLf :call ToLf()
