@@ -20,4 +20,4 @@ copy_to .gitconfig_private ~
 copy_to .config/nvim ~/.config -R
 
 # デバッグ実行関連の設定ファイル
-copy_to .nvim-dap.lua ~
+copy_to nvim-dap.lua ~
