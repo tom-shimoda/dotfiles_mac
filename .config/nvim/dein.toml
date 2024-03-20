@@ -353,6 +353,10 @@ repo = 'mfussenegger/nvim-dap'
 hook_add = '''
   source ~/nvim-dap.lua
 '''
+# --- nvim-nio
+# nvim-dap-uiに必要
+[[plugins]]
+repo = 'nvim-neotest/nvim-nio'
 # --- nvim-dap-ui
 [[plugins]]
 repo = 'rcarriga/nvim-dap-ui'
