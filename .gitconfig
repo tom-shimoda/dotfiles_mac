@@ -1,6 +1,6 @@
 [user]
     name = tom-shimoda
-    email = shimoda0204@gmail.com
+    email = tom-shimoda@example.com
 [core]
     autocrlf = input
     pager = delta
