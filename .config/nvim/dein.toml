@@ -109,20 +109,21 @@ vim.g.loaded_netrwPlugin = 1
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
 
+-- なんかエラー出るようになってたのでCO
 -- setup with some options
-require("nvim-tree").setup({
-  -- '-'キーを無効化し、'u'で階層を上がるように(tmux用nvim-treeとバインドを同じにするため)
-  view = {
-    mappings = {
-      list = {
-        { key = "u", action = "dir_up" },
-      },
-    },
-  },
-  remove_keymaps = {
-    '-',
-  }
-})
+-- require("nvim-tree").setup({
+--   -- '-'キーを無効化し、'u'で階層を上がるように(tmux用nvim-treeとバインドを同じにするため)
+--   view = {
+--     mappings = {
+--       list = {
+--         { key = "u", action = "dir_up" },
+--       },
+--     },
+--   },
+--   remove_keymaps = {
+--     '-',
+--   }
+-- })
 
 -- nvim-treeが最後のbufferだった場合、自動で閉じる(参考:https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close)
 vim.api.nvim_create_autocmd("BufEnter", {
