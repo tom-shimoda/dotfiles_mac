@@ -264,7 +264,11 @@ hook_add = '''
     nmap <silent> gr <Plug>(coc-references)
     nnoremap <silent> == :call CocAction('format')<CR>
     nnoremap <silent> ghh :call <SID>show_documentation()<CR>
+
     nmap <silent> <A-Enter> <Plug>(coc-codeaction-cursor)
+    " for mac (Altキーが使えないため)
+    nmap <silent> g<Enter> <Plug>(coc-codeaction-cursor)
+
     nmap <silent> gan <Plug>(coc-diagnostic-next)
     nmap <silent> gab <Plug>(coc-diagnostic-prev)
     nmap <silent> <Space>r <Plug>(coc-rename)
