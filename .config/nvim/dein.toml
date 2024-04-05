@@ -188,12 +188,12 @@ repo = 'itchyny/calendar.vim'
 repo = 'junegunn/fzf.vim'
 hook_add = '''
     " fzfのリポジトリへpathを通しておく必要がある (参考: https://github.com/junegunn/fzf.vim/issues/439#issuecomment-1268535686 )
-    set rtp+=/opt/homebrew/Cellar/fzf/0.42.0/
+    set rtp+=/opt/homebrew/Cellar/fzf/*/
 
 
     "nnoremap <C-p> :call FzfOmniFiles()<cr>
-    nnoremap <C-p> :FZF<cr>
-    nnoremap <C-g> :Rg<Space>
+    nnoremap <C-p> :Files<cr>
+    nnoremap <C-g> :Rg<cr>
 
     " fzf (C-p)
     "fun! FzfOmniFiles()
