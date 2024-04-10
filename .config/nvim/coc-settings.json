@@ -2,6 +2,6 @@
     "jedi": {
         "enable": true,
         "startupMessage": false,
-        "executable.command": "/Users/owner/.pyenv/versions/3.10.1/bin/jedi-language-server"
-    }
+        "executable.command": "jedi-language-server"
+    },
 }

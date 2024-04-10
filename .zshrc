@@ -25,7 +25,8 @@ fi
 ########################
 alias ll='ls -alF'
 alias here='open .'
-alias py='python'
+alias py='python3'
+alias python='python3'
 alias gitg='git log --graph --oneline --decorate=full --date=short --format="%C(yellow)%h%C(reset) %C(magenta)[%ad]%C(reset)%C(auto)%d%C(reset) %s %C(cyan)@%an%C(reset)" $args'
 
 ########################
@@ -59,7 +60,7 @@ export NVM_DIR="$HOME/.nvm"
 ########################
 # pyenv (https://www.imamura.biz/blog/32400)
 ########################
-eval "$(pyenv init --path)"
+# eval "$(pyenv init --path)"
 
 ########################
 # Added by Zinit's installer
@@ -136,3 +137,6 @@ export FZF_CTRL_T_OPTS='--preview "bat  --color=always --style=header,grid --lin
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+
+# Created by `pipx` on 2024-04-10 08:57:15
+export PATH="$PATH:/Users/owner/.local/bin"

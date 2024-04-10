@@ -107,8 +107,8 @@ autocmd BufNewFile,BufRead * setlocal formatoptions-=r
 autocmd BufNewFile,BufRead * setlocal formatoptions-=o
 
 "pythonパス設定
-"let g:python_host_prog = $HOME . '/.pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog = '/usr/bin/python3'
+" let g:python3_host_prog = '/usr/bin/python3'
+let g:python3_host_prog = '/opt/homebrew/bin/python3'
 
 "vimrcの再読込
 nnoremap <Space>g :source ~/.config/nvim/init.vim<CR>
