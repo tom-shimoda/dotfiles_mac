@@ -60,6 +60,8 @@ export NVM_DIR="$HOME/.nvm"
 ########################
 # pyenv (https://www.imamura.biz/blog/32400)
 ########################
+# あまりpythonのバージョンを切り替える必要がなくなったのでCO
+# brewでpythonを直インストールする形に変更した
 # eval "$(pyenv init --path)"
 
 ########################
