@@ -23,11 +23,12 @@ fi
 ########################
 # alias
 ########################
-alias ll='ls -alF'
+alias ll='ls -alFh'
 alias here='open .'
 alias py='python3'
 alias python='python3'
 alias gitg='git log --graph --oneline --decorate=full --date=short --format="%C(yellow)%h%C(reset) %C(magenta)[%ad]%C(reset)%C(auto)%d%C(reset) %s %C(cyan)@%an%C(reset)" $args'
+alias sz='du -shx *'
 
 ########################
 # PATH
