@@ -32,7 +32,8 @@ alias gitg='git log --graph --oneline --decorate=full --date=short --format="%C(
 # フォルダサイズを取得
 function sz(){
     if [ $# -eq 0 ]; then
-        du -shx *
+        # 参考: https://qiita.com/YKInoMT/items/f84f0037b9c6687f4f04
+        du -shx . .[^.]* *
     else
         du -shx $1
     fi
