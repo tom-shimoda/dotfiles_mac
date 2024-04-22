@@ -39,6 +39,11 @@ function sz(){
     fi
 }
 
+function youtubeDL_Movie() {
+    yt-dlp $1 -i -f bestvideo+bestaudio/best -o "/Users/owner/Documents/YouTube/Movie/%(title)s - %(channel)s.%(ext)s" --add-metadata --embed-thumbnail --merge-output-format mp4 -N 10
+}
+
+
 ########################
 # PATH
 ########################
