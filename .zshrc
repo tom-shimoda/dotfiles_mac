@@ -42,6 +42,13 @@ function sz(){
 function youtubeDL_Movie() {
     yt-dlp $1 -i -f bestvideo+bestaudio/best -o "~/Documents/YouTube/Movie/%(title)s - %(channel)s.%(ext)s" --add-metadata --embed-thumbnail --merge-output-format mp4 -N 10
 }
+function compVideo1280 {
+    ffmpeg -i $1 -c:a libopus -c:v libx265 -crf 31 -r 29.97 -tag:v hvc1 -vf scale=1280:720 output.mp4
+}
+
+function compVideoFull {
+    ffmpeg -i $1 -c:a libopus -c:v libx265 -crf 31 -r 29.97 -tag:v hvc1 output.mp4
+}
 
 
 ########################
