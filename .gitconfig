@@ -17,8 +17,8 @@
 [lfs]
     concurrenttransfers = 128
 [filter "lfs"]
-    ; macの場合git-lfsのパスを正しく設定しないと"git-lfs: command not found"エラーが出てしまうことがあるので、
-    ; which git-lfsのパスを設定する.
+    ; macの場合git-lfsのパスを正しく設定しないと"git-lfs: command not found"エラーが出てしまうことがあるので、which git-lfsのパスを設定する。
+    ; リポジトリ毎のconfigにもgit-lfsの記述があったりするので、その場合はglobal configが参照されずにnot foundが出るので注意。
     ; [参考](https://jp.mathworks.com/matlabcentral/answers/1984409-how-do-i-fix-git-lfs-command-not-found-on-macos)
 	process = /opt/homebrew/bin/git-lfs filter-process
 	required = true
