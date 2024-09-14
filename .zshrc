@@ -28,6 +28,7 @@ alias here='open .'
 alias py='python3'
 alias python='python3'
 alias gitg='git log --graph --oneline --decorate=full --date=short --format="%C(yellow)%h%C(reset) %C(magenta)[%ad]%C(reset)%C(auto)%d%C(reset) %s %C(cyan)@%an%C(reset)" $args'
+alias speedtest='speedtest -s 48463'
 
 # フォルダサイズを取得
 function sz(){
@@ -45,11 +46,12 @@ function youtubeDL_Movie() {
 function compVideo1280 {
     ffmpeg -i $1 -c:a libopus -c:v libx265 -crf 31 -r 29.97 -tag:v hvc1 -vf scale=1280:720 output.mp4
 }
-
 function compVideoFull {
     ffmpeg -i $1 -c:a libopus -c:v libx265 -crf 31 -r 29.97 -tag:v hvc1 output.mp4
 }
-
+function extractMusicFromVideo {
+    ffmpeg -i $1 -vn -acodec mp3 ${1%.*}.mp3
+}
 
 ########################
 # PATH
