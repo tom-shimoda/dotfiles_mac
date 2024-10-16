@@ -23,12 +23,17 @@ fi
 ########################
 # alias
 ########################
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
 alias ll='ls -alFh'
 alias here='open .'
 alias py='python3'
 alias python='python3'
 alias gitg='git log --graph --oneline --decorate=full --date=short --format="%C(yellow)%h%C(reset) %C(magenta)[%ad]%C(reset)%C(auto)%d%C(reset) %s %C(cyan)@%an%C(reset)" $args'
 alias speedtest='speedtest -s 48463'
+alias zengit='zengit .'
 
 # フォルダサイズを取得
 function sz(){
@@ -61,6 +66,9 @@ export PATH="$PATH:/Applications/Blender.app/Contents/MacOS/"
 # ggrepをgrepとして使いたい (ggrepは`brew install grep`でインストールできる)
 # gnu系をデフォルト名で使いたい場合はbrew info grep等で何をPATHに追加すればいいか教えてくれる
 export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
+# Zengit
+export PATH="$PATH:/Applications/zengit.app/Contents/MacOS/"
+
 
 ########################
 # cd移動時に自動でllする
