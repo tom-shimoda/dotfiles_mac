@@ -32,14 +32,25 @@ alias here='open .'
 alias py='python3'
 alias python='python3'
 alias gitg='git log --graph --oneline --decorate=full --date=short --format="%C(yellow)%h%C(reset) %C(magenta)[%ad]%C(reset)%C(auto)%d%C(reset) %s %C(cyan)@%an%C(reset)" $args'
-alias speedtest='speedtest -s 48463'
 alias zengit='zengit .'
+
+# 48463=IPA CyberLab 400G (Tokyo) がアクセス不可になったためCO
+# サーバー一覧は`speedtest -L`で表示できる。詳しくは`speedtest -h`で。
+# alias speedtest='speedtest -s 48463'
 
 # フォルダサイズを取得
 function sz(){
     if [ $# -eq 0 ]; then
-        # 参考: https://qiita.com/YKInoMT/items/f84f0037b9c6687f4f04
-        du -shx . .[^.]* *
+        ## 方法1
+        # setopt local no_nomatch  # マッチしない場合にエラーを無視
+        # du -shx . .[^.]* *
+
+        ## 方法2
+        # du -shx . $(find . -mindepth 1 -maxdepth 1 -name '.*' ! -name '.' ! -name '..') *
+
+        ## 方法3
+        # *(D): zsh の拡張グロブ。D オプションは隠しファイル（. で始まるファイル）も対象に含めます。
+        du -shx . *(D)
     else
         du -shx $1
     fi
@@ -56,6 +67,9 @@ function compVideoFull {
 }
 function extractMusicFromVideo {
     ffmpeg -i $1 -vn -acodec mp3 ${1%.*}.mp3
+}
+function mp3_to_wav {
+    ffmpeg -i $1 -vn -ac 2 -ar 44100 -acodec pcm_s16le -f wav ${1%.*}.wav
 }
 
 ########################
