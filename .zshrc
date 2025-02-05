@@ -57,6 +57,7 @@ function sz(){
 }
 
 function youtubeDL_Movie() {
+    # yt-dlpはpipxでインストールした
     yt-dlp $1 -i -f bestvideo+bestaudio/best -o "~/Documents/YouTube/Movie/%(title)s - %(channel)s.%(ext)s" --add-metadata --embed-thumbnail --merge-output-format mp4 -N 10
 }
 function compVideo1280 {
