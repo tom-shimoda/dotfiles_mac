@@ -168,13 +168,17 @@ vnoremap c "0c
 vnoremap x "0x
 vnoremap d "0d
 vnoremap D "0D
+nnoremap D "0D
+nnoremap dd "0dd
+
+" デフォルトの ci", ci{ 等で同等のことができる(insertモードになる)
 nnoremap di( "0di(
 nnoremap di[ "0di[
 nnoremap di{ "0di{
 nnoremap di' "0di'
 nnoremap di" "0di"
-nnoremap D "0D
-nnoremap dd "0dd
+nnoremap dit "0dit
+
 "カーソル下のシンボルをコピー
 nnoremap <Space>y wbvey
 "カーソル下のシンボルをカット
@@ -264,3 +268,4 @@ vnoremap <silent> <C-d> <cmd>call <SID>smooth_scroll('down')<CR>
 
 " yank内容をクリップボードへ
 set clipboard=unnamed
+
