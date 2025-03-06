@@ -49,6 +49,7 @@
             ]
         }
     },
+    // :CocList extensionsのFUZZY検索から抜け出せない問題の対応 (https://github.com/neoclide/coc.nvim/issues/1605)
     "list.normalMappings": {
         "<C-c>": "do:exit"
     },
