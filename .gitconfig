@@ -1,9 +1,10 @@
 [user]
     name = tom-shimoda
-    email = tom-shimoda@example.com
+    email = buckeye0204@gmail.com
 [core]
     autocrlf = input
     pager = delta
+	excludesfile = /Users/owner/.gitignore_global
 [interactive]
     diffFilter = delta --color-only
 [delta]
@@ -20,9 +21,9 @@
     ; macの場合git-lfsのパスを正しく設定しないと"git-lfs: command not found"エラーが出てしまうことがあるので、which git-lfsのパスを設定する。
     ; リポジトリ毎のconfigにもgit-lfsの記述があったりするので、その場合はglobal configが参照されずにnot foundが出るので注意。
     ; [参考](https://jp.mathworks.com/matlabcentral/answers/1984409-how-do-i-fix-git-lfs-command-not-found-on-macos)
-	process = /opt/homebrew/bin/git-lfs filter-process
+	process = git-lfs filter-process
 	required = true
-	clean = /opt/homebrew/bin/git-lfs clean -- %f
-	smudge = /opt/homebrew/bin/git-lfs smudge -- %f
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
 [pull]
 	rebase = false

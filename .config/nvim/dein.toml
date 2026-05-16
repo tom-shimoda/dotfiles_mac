@@ -228,8 +228,8 @@ hook_add = '''
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
 hook_add = '''
-    nnoremap ghn :GitGutterNextHunk<cr>
-    nnoremap ghb :GitGutterPrevHunk<cr>
+    nnoremap ghn :GitGutterNextHunk<cr>:GitGutterPreviewHunk<cr>
+    nnoremap ghb :GitGutterPrevHunk<cr>:GitGutterPreviewHunk<cr>
     nnoremap ghs :GitGutterStageHunk<cr>
     nnoremap ghu :GitGutterUndoHunk<cr>
     nnoremap ghp :GitGutterPreviewHunk<cr>

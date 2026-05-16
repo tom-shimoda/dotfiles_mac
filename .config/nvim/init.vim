@@ -223,13 +223,13 @@ endfunction
 function! ToUtf8() abort
     execute 'e ++enc=shift-jis'
     execute 'set fenc=utf-8'
-    silent write
+    silent write!
 endfunction
 command! ToUtf8 :call ToUtf8()
 function! ToLf() abort
     execute 'e ++ff=unix'
     execute '%s///g'
-    silent write
+    silent write!
 endfunction
 command! ToLf :call ToLf()
 function! ToUtf8Lf() abort

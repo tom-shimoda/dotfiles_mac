@@ -72,6 +72,92 @@ function extractMusicFromVideo {
 function mp3_to_wav {
     ffmpeg -i $1 -vn -ac 2 -ar 44100 -acodec pcm_s16le -f wav ${1%.*}.wav
 }
+# function convVideoToGif {
+#     # input: mov,mp4等
+#     # -vf scale: <横幅pixel : -1 (-1でアス比を保つ)>
+#     # -r: フレームレート
+#     ffmpeg -i $1 -vf scale=800:-1 -r 30 output.gif
+# }
+function convVideoToGif {
+    local input="$1" # $1 = 入力ファイル
+    local width="${2:-800}" # $2 = 横幅 (省略時 800)
+    local framerate="${3:-30}" # $3 = フレームレート (省略時 30)
+    if [ -z "$input" ]; then
+        echo "Usage: convVideoToGif <inputfile> [width] [framerate]"
+        return 1
+    fi
+
+    ffmpeg -i "$input" -vf "scale=${width}:-1" -r "$framerate" output.gif
+}
+function heic_to_png {
+    input="$1"
+    # 拡張子を除いたファイル名を取得（パスなし）
+    filename_without_ext="${input%.*}"
+    # ImageMagickによる変換
+    magick "$input" "${filename_without_ext}.png"
+}
+function heic_to_png_all() {
+    # カレントディレクトリの HEIC を全部処理
+    setopt local_options null_glob no_case_glob  # *.heic 無い時の安全 & 大文字拡張子対応
+    for file in *.heic; do
+        [[ -f $file ]] || continue
+        print -P "%F{green}▶︎ 変換中:%f $file"
+        heic_to_png "$file"
+    done
+    print -P "%F{magenta}✓ すべて完了%f"
+}
+function heic_to_jpg {
+    input="$1"
+    # 拡張子を除いたファイル名を取得（パスなし）
+    filename_without_ext="${input%.*}"
+    # ImageMagickによる変換
+    magick "$input" "${filename_without_ext}.jpg"
+}
+function heic_to_jpg_all() {
+    # カレントディレクトリの HEIC を全部処理
+    setopt local_options null_glob no_case_glob
+
+    for file in *.heic; do
+        [[ -f $file ]] || continue
+        print -P "%F{green}▶︎ 変換中:%f $file"
+        heic_to_jpg "$file"
+    done
+
+    print -P "%F{magenta}✓ すべて完了%f"
+}
+function png_to_jpg() {
+    input="$1"
+
+    # 拡張子を除いたファイル名を取得
+    filename_without_ext="${input%.*}"
+
+    # ImageMagickによる変換
+    magick "$input" "${filename_without_ext}.jpg"
+}
+function png_to_jpg_all() {
+    # カレントディレクトリの PNG を全部処理
+    setopt local_options null_glob no_case_glob
+
+    for file in *.png; do
+        [[ -f $file ]] || continue
+        print -P "%F{green}▶︎ 変換中:%f $file"
+        png_to_jpg "$file"
+    done
+
+    print -P "%F{magenta}✓ すべて完了%f"
+}
+# 第2引数に1~99でクオリティを指定 (数値が大きいほど高品質、容量大)
+function sizedown_jpg {
+    input="$1"
+    # 拡張子を除いたファイル名を取得（パスなし）
+    filename_without_ext="${input%.*}"
+    # ImageMagickによる変換
+    magick "$input" -quality $2 "${filename_without_ext}.jpg"
+}
+# mkdir -p && touch (途中のフォルダがなければ生成)
+tp() {
+  mkdir -p "$(dirname "$1")" && touch "$1"
+}
 
 ########################
 # PATH
@@ -83,6 +169,8 @@ export PATH="$PATH:/Applications/Blender.app/Contents/MacOS/"
 export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
 # Zengit
 export PATH="$PATH:/Applications/zengit.app/Contents/MacOS/"
+# go installしたもの
+export PATH="$HOME/go/bin:$PATH"
 
 
 ########################
