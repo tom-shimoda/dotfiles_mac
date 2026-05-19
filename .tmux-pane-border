@@ -1,115 +1,6 @@
 #!/bin/zsh
 # このファイルの参考元: https://qiita.com/arks22/items/a792d9d43d913c373520
 
-# git状態表示
-function get_git_status() {
-    local result=""
-    local pullpush_count=$(get_pullpush_count)
-    local status_count=$(get_status_count)
-
-    if [[ -n $pullpush_count ]] || [[ -n $status_count ]]; then
-        if [[ -n $pullpush_count ]]; then
-            result="$pullpush_count"
-        fi
-
-        if [[ -n $status_count ]]; then
-            if [[ -n $result ]]; then
-                result="$result $status_count"
-            else
-                result="$status_count"
-            fi
-        fi
-
-        echo "#[fg=colour003] $result #[fg=default]"
-    else
-        echo "#[fg=green] ✔ "
-    fi
-}
-
-# pullpush数表示
-function get_pullpush_count(){
-    local result=""
-
-    # git statusの出力を変数に格納
-    status_log=$(git status 2> /dev/null)
-    status_log=`echo ${status_log} | tr -d '\n'` # 改行を削除しておく
-
-    # pull数を抽出して表示
-    pull_count=$(echo "$status_log" | ggrep -oP '(?<=behind ).*(?= commit)' | awk '{print $3}')
-    if [[ -n $pull_count ]]; then
-        result="⇣$pull_count"
-    fi
-
-    # push数を抽出して表示
-    push_count=$(echo "$status_log" | ggrep -oP '(?<=ahead of ).*(?= commit)' | awk '{print $3}')
-    if [[ -n $push_count ]]; then
-        if [[ -n $result ]]; then
-            result="$result ⇡$push_count"
-        else
-            result="⇡$push_count"
-        fi
-    fi
-
-    echo $result
-}
-
-# Untracked, Modified, Added数表示
-function get_status_count() {
-    local untracked=0
-    local modified=0
-    local added=0
-
-    OLDIFS=$IFS
-    IFS=$'\n' # 行の区切り文字を指定。指定しないと空白でも分けられる
-    for line in `git status --short 2> /dev/null`
-    do
-        case $line in
-            "??"*)
-                untracked=$((untracked+1))
-                ;;
-            " M"*)
-                modified=$((modified+1))
-                ;;
-            "M "*)
-                added=$((added+1))
-                ;;
-            "A "*)
-                added=$((added+1))
-                ;;
-            "AM"*)
-                modified=$((modified+1))
-                added=$((added+1))
-                ;;
-        esac
-    done
-    IFS=$OLDIFS
-
-    local result=""
-    if (( added > 0 )); then
-        result="+$added"
-    fi
-
-    if (( modified > 0 )); then
-        if [[ -n $result ]]; then
-            result="$result !$modified"
-        else
-            result="!$modified"
-        fi
-    fi
-
-    if (( untracked > 0 )); then
-        if [[ -n $result ]]; then
-            result="$result ?$untracked"
-        else
-            result="?$untracked"
-        fi
-    fi
-
-    echo $result
-}
-
-
-
 if [[ $1 = "ssh" ]]; then
     pane_pid=$2
     info=$({ pgrep -flaP $pane_pid ; ps -o command -p $pane_pid; } | xargs -I{} echo {} | awk '/ssh/' | sed -E 's/^[0-9]*[[:blank:]]*ssh //')
@@ -145,20 +36,8 @@ if [[ $1 = "ssh" ]]; then
         done
     fi
     ssh_hostname=" ssh:$user@$host "
-    git_info=""
     directory=""
 else
-    if git_status=$(cd $3 && git status 2>/dev/null ); then
-        git_branch="$(echo $git_status| awk 'NR==1 {print $3}')"
-        state=$(cd $3 && get_git_status)
-        if [[ $git_branch = "master" ]]; then
-            git_info="#[bg=black,fg=blue] ⭠ ${git_branch}${state}#[default]"
-        else
-            git_info="#[bg=black,fg=colour014] ⭠ ${git_branch}${state}#[default]"
-        fi
-    else
-        git_info=""
-    fi
     ssh_hostname=""
     directory="$3"
 fi
@@ -169,7 +48,6 @@ info=$({ pgrep -flaP $pane_pid ; ps -o command -p $pane_pid; })
 if echo $info | grep -q 'treemux_init.lua'; then
     ssh_hostname=""
     directory=""
-    git_info=""
 fi
 
-echo "#[bg=colour172,fg=colour234]$ssh_hostname#[default]#[bg=black,fg=cyan]#[underscore]$directory#[default]$git_info"
+echo "#[bg=colour172,fg=colour234]$ssh_hostname#[default]#[bg=black,fg=cyan]#[underscore]$directory#[default]"
