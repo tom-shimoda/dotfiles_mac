@@ -19,5 +19,10 @@ copy_to .gitconfig ~
 copy_to .gitconfig_private ~
 copy_to .config/nvim ~/.config -R
 
+mkdir -p ~/.tmux/scripts
+copy_to .tmux/scripts/lan-ip.sh ~/.tmux/scripts/
+copy_to .tmux/scripts/wan-ip.sh ~/.tmux/scripts/
+chmod +x ~/.tmux/scripts/lan-ip.sh ~/.tmux/scripts/wan-ip.sh
+
 # デバッグ実行関連の設定ファイル
 copy_to nvim-dap.lua ~

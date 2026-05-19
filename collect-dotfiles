@@ -18,6 +18,8 @@ copy_to ~/.p10k.zsh .
 copy_to ~/.gitconfig .
 copy_to ~/.gitconfig_private .
 copy_to ~/.config/nvim .config/ -R
+copy_to ~/.tmux/scripts/lan-ip.sh .tmux/scripts/
+copy_to ~/.tmux/scripts/wan-ip.sh .tmux/scripts/
 
 # デバッグ実行関連の設定ファイル
 copy_to ~/nvim-dap.lua .
