@@ -269,3 +269,7 @@ vnoremap <silent> <C-d> <cmd>call <SID>smooth_scroll('down')<CR>
 " yank内容をクリップボードへ
 set clipboard=unnamed
 
+" tmuxのpaneフォーカスハイライトを反映させるため背景を透過
+autocmd ColorScheme * highlight Normal guibg=NONE ctermbg=NONE
+autocmd ColorScheme * highlight NormalNC guibg=NONE ctermbg=NONE
+

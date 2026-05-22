@@ -2,6 +2,7 @@
 [[plugins]]
 repo = 'sainnhe/gruvbox-material'
 hook_add = '''
+    let g:gruvbox_material_transparent_background = 1
     set background=dark
     colorscheme gruvbox-material
 '''
