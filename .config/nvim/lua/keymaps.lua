@@ -27,7 +27,11 @@ map("n", "<Space>n", "<C-i>zz", opts)
 map({ "n", "v" }, "<Space>j", "gJ", opts)
 
 -- バッファ操作 (<S-h>/<S-l>の移動はbufferline.luaで定義)
-map("n", "<leader>x", ":bp<CR>:bd #<CR>", opts)
+map("n", "<leader>x", function()
+    vim.cmd("bp")
+    vim.cmd("bd #")
+    vim.cmd("redrawtabline")
+end, opts)
 
 -- ハイライト切替
 map("n", "<F1>", ":noh<CR>", opts)
