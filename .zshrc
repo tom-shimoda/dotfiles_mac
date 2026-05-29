@@ -208,6 +208,16 @@ chpwd() {
 setopt auto_cd
 
 ########################
+# 履歴設定（tmux全paneで共有）
+########################
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=100000
+SAVEHIST=100000
+setopt SHARE_HISTORY       # 全paneでリアルタイム共有
+setopt HIST_IGNORE_DUPS    # 連続重複コマンドを保存しない
+setopt HIST_REDUCE_BLANKS  # 余分なスペースを除去して保存
+
+########################
 # nvmインストール時に自動で追加されたもの（遅延ロードに変更）
 ########################
 export NVM_DIR="$HOME/.nvm"
