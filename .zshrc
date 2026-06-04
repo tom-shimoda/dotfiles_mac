@@ -217,29 +217,6 @@ setopt SHARE_HISTORY       # 全paneでリアルタイム共有
 setopt HIST_IGNORE_DUPS    # 連続重複コマンドを保存しない
 setopt HIST_REDUCE_BLANKS  # 余分なスペースを除去して保存
 
-########################
-# nvmインストール時に自動で追加されたもの（遅延ロードに変更）
-########################
-export NVM_DIR="$HOME/.nvm"
-# デフォルトnodeのbinをPATHに追加（claudeなどグローバルnpmパッケージを即時使えるようにする）
-() {
-    local version="$NVM_DIR/alias/default"
-    [[ -f "$version" ]] && version=$(cat "$version")
-    while [[ -n "$version" && -f "$NVM_DIR/alias/$version" ]]; do
-        version=$(cat "$NVM_DIR/alias/$version")
-    done
-    [[ -n "$version" && -d "$NVM_DIR/versions/node/$version/bin" ]] && \
-        export PATH="$NVM_DIR/versions/node/$version/bin:$PATH"
-}
-nvm() {
-    unset -f nvm node npm npx
-    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-    [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
-    nvm "$@"
-}
-node() { nvm; node "$@"; }
-npm()  { nvm; npm  "$@"; }
-npx()  { nvm; npx  "$@"; }
 
 ########################
 # Added by Zinit's installer (Zinitインストールで自動追加されたもの)
