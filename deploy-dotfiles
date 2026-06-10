@@ -21,3 +21,8 @@ copy_to .config/nvim ~/.config -R
 
 # デバッグ実行関連の設定ファイル
 copy_to nvim-dap.lua ~
+
+# claude設定ファイル
+mkdir -p ~/.claude
+copy_to claude-config/CLAUDE.md ~/.claude/
+copy_to claude-config/settings.json ~/.claude/
